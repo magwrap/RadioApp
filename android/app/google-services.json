@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "786584580532",
+    "project_id": "musicplayer-5a9c5",
+    "storage_bucket": "musicplayer-5a9c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786584580532:android:0bea26555584d7084d02e1",
+        "android_client_info": {
+          "package_name": "com.radioapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786584580532-rpem38o7s3jv9q4pq95i3d3s6u2rik65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPdkdyHbr8hjsCriYn-AMwHUYY1-PZlN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786584580532-rpem38o7s3jv9q4pq95i3d3s6u2rik65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
