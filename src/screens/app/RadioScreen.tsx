@@ -53,9 +53,9 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
   const play = (url: string) => {
     try {
       // play the file tone.mp3
-      SoundPlayer.playSoundFile('ns_wip', 'mp3');
+      // SoundPlayer.playSoundFile('ns_wip', 'mp3');
       // or play from url
-      // SoundPlayer.playUrl(url);
+      SoundPlayer.playUrl(url);
     } catch (e) {
       console.log(`cannot play the sound file`, e);
     }
