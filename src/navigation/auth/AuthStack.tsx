@@ -9,8 +9,16 @@ const Stack = createNativeStackNavigator();
 const AuthStack: React.FC<AuthStackProps> = ({}) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{header: () => null}}
+      />
     </Stack.Navigator>
   );
 };

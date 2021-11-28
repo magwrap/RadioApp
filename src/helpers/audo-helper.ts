@@ -402,6 +402,12 @@ export function useAudioHelper(
     }
   }
 
+  function getNumberofChanels() {
+    if (player) {
+      player.getNumberOfChannels();
+    }
+  }
+
   return {
     play: () => play(player),
     pause,
@@ -440,5 +446,6 @@ export function useAudioHelper(
     isLoaded,
     initialize,
     release,
+    getNumberofChanels,
   };
 }

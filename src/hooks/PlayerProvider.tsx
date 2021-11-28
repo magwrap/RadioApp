@@ -21,10 +21,14 @@ const PlayerProvider: React.FC<PlayerProviderProps> = ({children}) => {
 
   // eslint-disable-next-line no-shadow
   const playNow = (station: Station) => {
-    player.playSoundNow(station);
-    setStation(station);
-    if (!player.isPlaying()) {
-      player.initialize();
+    if (player.isLoaded()) {
+      //TODO: to rozwiazanie kaze czekac uzytkownikowi az zaladuje sie wybrana stacja i wtedy bedzie mogl dopiero zmienic
+      player.release();
+      player.playSoundNow(station);
+      setStation(station);
+      if (!player.isPlaying()) {
+        player.initialize();
+      }
     }
   };
 
