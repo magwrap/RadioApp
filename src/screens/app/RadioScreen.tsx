@@ -1,38 +1,16 @@
 import {RadioBrowserApi, Station} from 'radio-browser-api';
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-
-import {usePlayerContext} from '../../hooks/PlayerProvider';
+import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
+import LanguagePicker from '../../components/app/radio/LanguagePicker';
+import RenderStation from '../../components/app/radio/RenderStation';
+import ViewStationFilters from '../../components/app/radio/ViewStationFilters';
 
 interface RadioScreenProps {}
 
 const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
   const [stations, setStations] = useState<Station[]>();
-  const [stationFilter, setStationFilter] = useState('disco'); // TODO: zmienic na all
-
-  const {playNow} = usePlayerContext();
-  const musicIcon = require('../../images/Music-icon-lg.png');
-
-  const play = (station: Station) => {
-    try {
-      // SoundPlayer.playSoundFile('ns_wip', 'mp3');
-      console.log('RadioScreen: ', station.name, ': ', station.urlResolved);
-      playNow(station);
-    } catch (e) {
-      console.log('cannot play the sound file', e);
-    }
-  };
-  // const stop = () => {
-  //   //costam zeby stop
-  // };
+  const [stationFilter, setStationFilter] = useState('all');
+  const [selectedLanguage, setSelectedLanguage] = useState('polish');
 
   useEffect(() => {
     setupApi(stationFilter).then(data => {
@@ -40,101 +18,57 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
         setStations(data);
       }
     });
-    // const unsubscribe = NetInfo.addEventListener(state => {
-    //   console.log('Connection type', state.type);
-    //   console.log('Is connected?', state.isConnected);
-    // });
-  }, [stationFilter]);
+  }, [stationFilter, selectedLanguage]);
 
   const setupApi = async (stationFiltr: string) => {
     const api = new RadioBrowserApi('My Radio App');
 
     // eslint-disable-next-line no-shadow
     const stations = await api.searchStations({
-      language: 'polish',
+      language: selectedLanguage,
       tag: stationFiltr,
-      limit: 30,
+      limit: 50,
+      order: 'clickCount', //clickTrend
     });
 
     return stations;
   };
-  const filters = [
-    'all',
-    'classical',
-    'country',
-    'dance',
-    'disco',
-    'house',
-    'jazz',
-    'pop',
-    'rap',
-    'retro',
-    'rock',
-  ];
+
+  const renderItem = ({item}: {item: Station}) => {
+    return <RenderStation station={item} />;
+  };
 
   return (
-    <View>
-      <Text style={styles.text}>Radio Screen</Text>
-      {filters.map((filter, i) => (
-        <TouchableOpacity
-          key={i}
-          onPress={() => setStationFilter(filter)}
-          style={[
-            stationFilter === filter
-              ? styles.selectedStation
-              : styles.normalStation,
-            styles.station,
-          ]}>
-          <Text>{filter}</Text>
-        </TouchableOpacity>
-      ))}
+    <View style={styles.container}>
+      <ViewStationFilters
+        stationFilter={stationFilter}
+        setStationFilter={setStationFilter}
+      />
 
-      <ScrollView>
-        {stations ? (
-          stations.map((station, i) => (
-            //TODO: dodac jakis placeholder jesli stacja nie ma ikony np. station.favicon ? "costam ": "costam"
-            <View key={i}>
-              <View>
-                <Text>{station.name}</Text>
-                {station.favicon ? (
-                  <Image
-                    source={{uri: station.favicon}}
-                    // eslint-disable-next-line react-native/no-inline-styles
-                    style={styles.imageSize}
-                  />
-                ) : (
-                  <Image
-                    source={musicIcon}
-                    // eslint-disable-next-line react-native/no-inline-styles
-                    style={styles.imageSize}
-                  />
-                )}
-              </View>
-              <Button title="play" onPress={() => play(station)} />
-            </View>
-          ))
-        ) : (
-          <Text>No Stations Found</Text>
-        )}
-      </ScrollView>
+      <LanguagePicker
+        selectedLanguage={selectedLanguage}
+        setSelectedLanguage={setSelectedLanguage}
+      />
+
+      {stations ? (
+        <FlatList
+          data={stations}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          ListFooterComponent={<View style={styles.footer} />}
+        />
+      ) : (
+        <View style={styles.activityIndicator}>
+          <ActivityIndicator size="large" />
+        </View>
+      )}
     </View>
   );
 };
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 20,
-  },
-  selectedStation: {
-    backgroundColor: 'red',
-  },
-  normalStation: {
-    backgroundColor: 'green',
-  },
-  station: {
-    width: 100,
-  },
-  stations: {},
-  imageSize: {width: 50, height: 50},
+  container: {flex: 1},
+  activityIndicator: {alignItems: 'center', justifyContent: 'center'},
+  footer: {height: 60},
 });
 
 export default RadioScreen;

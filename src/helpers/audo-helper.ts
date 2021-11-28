@@ -11,7 +11,8 @@ type AudioStatusType =
   | 'pause'
   | 'next'
   | 'previous'
-  | 'stop';
+  | 'stop'
+  | 'turning on';
 
 interface IUseAudioHelper {
   timeRate?: number; // seconds
@@ -58,7 +59,7 @@ export function useAudioHelper(
 ) {
   // const [listSounds, setListSounds] = React.useState(queue);
   const [timeRate, setTimeRate] = React.useState(request.timeRate); // seconds
-  const [status, setStatus] = React.useState<AudioStatusType>('loading');
+  const [status, setStatus] = React.useState<AudioStatusType>('turning on');
   const [errorMessage, setErrorMessage] = React.useState('');
 
   const [currentTime, setCurrentTime] = React.useState(0);
@@ -66,7 +67,7 @@ export function useAudioHelper(
   const [duration, setDuration] = React.useState(0);
   const [player, setPlayer] = React.useState<SoundPlayer>(null);
 
-  const playSoundNow = (station: Station) => {
+  const playStationNow = (station: Station) => {
     console.log('audio-helper station: ', station);
     queue.unshift({
       type: 'network',
@@ -100,8 +101,8 @@ export function useAudioHelper(
   }
 
   function initialize() {
-    setStatus('loading');
     if (queue.length > 0) {
+      setStatus('loading');
       if (player) {
         player.release();
       }
@@ -169,6 +170,9 @@ export function useAudioHelper(
     if (request.isLogStatus === true) {
       switch (status) {
         default:
+          break;
+        case 'turning on':
+          console.log('turning on...');
           break;
         case 'loading':
           console.log('loading...');
@@ -441,7 +445,7 @@ export function useAudioHelper(
     isLoop,
     isMuted,
     volume,
-    playSoundNow,
+    playStationNow,
     isPlaying,
     isLoaded,
     initialize,

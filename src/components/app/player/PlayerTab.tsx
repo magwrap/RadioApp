@@ -1,11 +1,13 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {usePlayerContext} from '../../../hooks/PlayerProvider';
 
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Slider from '@react-native-community/slider';
 import {useNavigation} from '@react-navigation/native';
 import ViewActivityIndicator from './ViewActivityIndicator';
+import TextTicker from 'react-native-text-ticker';
+import {playerStyles} from '../../../styles/player/PlayerTabStyles';
 
 interface PlayerTabProps {}
 
@@ -23,17 +25,29 @@ const PlayerTab: React.FC<PlayerTabProps> = ({}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={goToPlayer} style={styles.station}>
+    <View style={playerStyles.container}>
+      <TouchableOpacity onPress={goToPlayer} style={playerStyles.station}>
         {station?.favicon ? (
-          <Image source={{uri: station.favicon}} style={styles.avatar} />
+          <Image source={{uri: station.favicon}} style={playerStyles.avatar} />
         ) : (
-          <Image source={musicIcon} style={styles.avatar} />
+          <Image source={musicIcon} style={playerStyles.avatar} />
         )}
-        <Text>{name.slice(0, 10)}</Text>
+        {/* <Text>{name.slice(0, 10)}</Text> */}
+        <View style={playerStyles.tickerWidth}>
+          <TextTicker
+            style={playerStyles.stationName}
+            duration={10000}
+            loop
+            repeatSpacer={50}
+            marqueeDelay={1000}>
+            {name}
+          </TextTicker>
+        </View>
       </TouchableOpacity>
-      <View style={styles.progressBar}>
-        <Text style={styles.progressBarText}>{player.currentTimeString}</Text>
+      <View style={playerStyles.progressBar}>
+        <Text style={playerStyles.progressBarText}>
+          {player.currentTimeString}
+        </Text>
         <Slider
           // eslint-disable-next-line react-native/no-inline-styles
           style={{width: '70%', minHeight: 40}}
@@ -49,19 +63,19 @@ const PlayerTab: React.FC<PlayerTabProps> = ({}) => {
         />
         {/* <Text style={styles.progressBarText}>{player.durationString}</Text> */}
       </View>
-      <View style={styles.buttons}>
+      <View style={playerStyles.buttons}>
         {station && <ViewActivityIndicator player={player} />}
 
         {player.status === 'play' ? (
-          <TouchableOpacity onPress={player.pause} style={styles.button}>
+          <TouchableOpacity onPress={player.pause} style={playerStyles.button}>
             <FontAwesomeIcon name="pause" color="gray" size={buttonSize} />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={player.play} style={styles.button}>
+          <TouchableOpacity onPress={player.play} style={playerStyles.button}>
             <FontAwesomeIcon name="play" color="gray" size={buttonSize} />
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={player.next} style={styles.button}>
+        <TouchableOpacity onPress={player.next} style={playerStyles.button}>
           <FontAwesomeIcon
             name="step-forward"
             size={buttonSize}
@@ -72,49 +86,5 @@ const PlayerTab: React.FC<PlayerTabProps> = ({}) => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    height: 60,
-    width: '100%',
-    borderTopWidth: 1,
-    position: 'absolute',
-    bottom: 50,
-    // top: 100,
-    flexDirection: 'row',
-    backgroundColor: '#FDFDFD',
-    padding: 5,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  buttons: {
-    flexDirection: 'row',
-  },
-  button: {
-    margin: 2,
-    marginRight: 10,
-  },
-  progressBar: {
-    flexDirection: 'row',
-    marginVertical: 1,
-    marginHorizontal: 1,
-    borderColor: 'white',
-    borderWidth: 1,
-    width: 165,
-  },
-  progressBarText: {
-    alignSelf: 'center',
-  },
-  avatar: {
-    width: 38,
-    height: 38,
-    borderRadius: 100,
-    marginRight: 5,
-  },
-  station: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 120,
-  },
-});
 
 export default PlayerTab;

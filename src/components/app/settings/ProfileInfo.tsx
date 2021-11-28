@@ -7,9 +7,8 @@ interface ProfileInfoProps {}
 const ProfileInfo: React.FC<ProfileInfoProps> = ({}) => {
   const {currentUser} = useAuthContext();
   return (
-    <View>
-      <Text style={styles.text}>Settings Screen</Text>
-      <Text>email: {currentUser?.email} </Text>
+    <View style={styles.container}>
+      <Text>{currentUser?.email} </Text>
 
       <Text>
         displayName:{' '}
@@ -35,6 +34,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({}) => {
   );
 };
 const styles = StyleSheet.create({
+  container: {flex: 1, padding: 20},
   text: {
     fontSize: 20,
   },

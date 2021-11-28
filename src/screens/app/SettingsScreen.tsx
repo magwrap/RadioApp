@@ -1,36 +1,58 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import CustomButton from '../../components/app/CustomButton';
 import DeleteProfile from '../../components/app/settings/DeleteProfile';
 import Logout from '../../components/app/settings/Logout';
 import ProfileInfo from '../../components/app/settings/ProfileInfo';
-import UpdatePassword from '../../components/app/settings/UpdatePassword';
-import UpdateProfile from '../../components/app/settings/UpdateProfile';
+import {buttonStyles} from '../../styles/settings/ButtonStyles';
+import {textStyles} from '../../styles/settings/TextStyles';
 
-interface SettingsScreenProps {}
+interface SettingsScreenProps {
+  navigation: any;
+}
 
-const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
+const SettingsScreen: React.FC<SettingsScreenProps> = ({navigation}) => {
+  const onUpdateProfile = () => {
+    navigation.navigate('UpdateProfile');
+  };
+  const onChangePassword = () => {
+    navigation.navigate('UpdatePassword');
+  };
   return (
     <View style={styles.container}>
-      <ProfileInfo />
-      <View style={styles.profileFunctions}>
-        <UpdateProfile />
-        <UpdatePassword />
+      <View style={styles.container}>
+        <ProfileInfo />
       </View>
-      <View style={styles.profileFunctions}>
-        <Logout />
-        <DeleteProfile />
+      <View style={[styles.container, styles.buttons]}>
+        <View style={buttonStyles.pairOfbuttons}>
+          <CustomButton
+            title="Update Profile"
+            onPress={onUpdateProfile}
+            style={buttonStyles.button}
+            textStyle={textStyles.text}
+          />
+          <CustomButton
+            title="Change Password"
+            onPress={onChangePassword}
+            style={buttonStyles.button}
+            textStyle={textStyles.text}
+          />
+        </View>
+
+        <View style={buttonStyles.pairOfbuttons}>
+          <Logout />
+          <DeleteProfile />
+        </View>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
     flex: 1,
   },
-  profileFunctions: {
-    flexDirection: 'row',
-    width: '100%',
+  buttons: {
+    padding: 10,
   },
 });
 

@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import CustomButton from '../../components/app/CustomButton';
 import CrudentialsTextInput from '../../components/auth/CrudentialsTextInput';
 // import PhoneSignIn from '../../components/auth/PhoneSignin';
 import {useAuthContext} from '../../hooks/AuthProvider';
+import {buttonStyles} from '../../styles/auth/ButtonStyles';
+import {textStyles} from '../../styles/auth/TextStyles';
 
 interface LoginScreenProps {
   navigation: any;
@@ -22,12 +25,20 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     signIn();
   }, []); //TODO: usunac ten efekt
 
+  const goToRegister = () => {
+    navigation.navigate('Register');
+  };
+
   const signIn = () => {
     if (email && password) {
       login(email, password, setMessage);
     } else {
       setViewWarnings(true);
     }
+  };
+
+  const goToResetPassword = () => {
+    navigation.navigate('ResetPassword');
   };
 
   return (
@@ -49,13 +60,29 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         label="password"
         viewWarnings={viewWarnings}
       />
-      {message ? <Text>{message}</Text> : null}
-      <Button title="login" onPress={signIn} />
-      <Button
-        title="Go to Register"
-        onPress={() => navigation.navigate('Register')}
+
+      <CustomButton
+        title="You dont remember your password?"
+        onPress={goToResetPassword}
+        textStyle={textStyles.resetPassword}
       />
-      {/* <PhoneSignIn /> */}
+
+      {message ? <Text style={textStyles.message}>{message}</Text> : null}
+      <View style={buttonStyles.buttons}>
+        <CustomButton
+          title="Login"
+          onPress={signIn}
+          style={[buttonStyles.button, buttonStyles.loginButton]}
+          textStyle={textStyles.text}
+        />
+        <CustomButton
+          title="Sign Up"
+          onPress={goToRegister}
+          style={[buttonStyles.button, buttonStyles.goToRegisterButton]}
+          textStyle={textStyles.text}
+        />
+        {/* <PhoneSignIn /> */}
+      </View>
     </View>
   );
 };

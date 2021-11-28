@@ -21,8 +21,16 @@ const AuthContext = createContext<{
   ) => void;
   logout: () => void;
   updateProfile: (displayName: string, photoURL: string) => Promise<void>;
-  updatePassword: (password: string) => Promise<void>;
+  updatePassword: (
+    password: string,
+    setMessage: Dispatch<SetStateAction<string>>,
+  ) => Promise<void>;
   deleteProfile: () => Promise<void>;
+  sendPasswordResetEmail: (
+    setMessage: Dispatch<SetStateAction<string>>,
+    email?: string,
+  ) => Promise<void>;
+  signInAnonymously: () => Promise<void>;
 }>({
   currentUser: null,
   login: () => {},
@@ -31,6 +39,8 @@ const AuthContext = createContext<{
   updateProfile: async () => {},
   updatePassword: async () => {},
   deleteProfile: async () => {},
+  sendPasswordResetEmail: async () => {},
+  signInAnonymously: async () => {},
 });
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -43,6 +53,19 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const [currentUser, setCurrentUser] = useState<FirebaseAuthTypes.User | null>(
     null,
   );
+  const signInAnonymously = async () => {
+    auth()
+      .signInAnonymously()
+      .then(() => {
+        console.log('User signed in anonymously');
+      })
+      .catch(error => {
+        if (error.code === 'auth/operation-not-allowed') {
+          console.log('Enable anonymous in your firebase console.');
+        }
+        console.error(error);
+      });
+  };
 
   const register = (
     email: string,
@@ -114,10 +137,35 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     setCurrentUser(user);
   };
 
-  const updatePassword = async (password: string) => {
-    const user = auth().currentUser;
-    await user?.updatePassword(password);
-    setCurrentUser(user);
+  const sendPasswordResetEmail = async (
+    setMessage: Dispatch<SetStateAction<string>>,
+    email?: string,
+  ) => {
+    try {
+      if (email) {
+        auth().sendPasswordResetEmail(email);
+      } else {
+        const user = auth().currentUser;
+        if (user?.email) {
+          auth().sendPasswordResetEmail(user.email);
+        }
+      }
+    } catch (error: any) {
+      setMessage(error.message);
+    }
+  };
+
+  const updatePassword = async (
+    password: string,
+    setMessage: Dispatch<SetStateAction<string>>,
+  ) => {
+    try {
+      const user = auth().currentUser;
+      await user?.updatePassword(password);
+      setCurrentUser(user);
+    } catch (error: any) {
+      setMessage(error.message);
+    }
   };
 
   const deleteProfile = async () => {
@@ -135,6 +183,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         updateProfile,
         updatePassword,
         deleteProfile,
+        sendPasswordResetEmail,
+        signInAnonymously,
       }}>
       {children}
     </AuthContext.Provider>

@@ -1,13 +1,13 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/app/HomeScreen';
-import SettingsScreen from '../../screens/app/SettingsScreen';
 import RadioScreen from '../../screens/app/RadioScreen';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MusicScreen from '../../screens/app/MusicScreen';
 import PlayerTab from '../../components/app/player/PlayerTab';
+import SettingsStack from './SettingsStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,7 +41,7 @@ const AppTabs: React.FC<AppTabsProps> = ({}) => {
               ) : (
                 <Entypo name="radio" size={size} color={color} />
               );
-            } else if (route.name === 'Settings') {
+            } else if (route.name === 'SettingsStack') {
               return focused ? (
                 <Feather name="settings" size={size} color={color} />
               ) : (
@@ -55,7 +55,11 @@ const AppTabs: React.FC<AppTabsProps> = ({}) => {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Music" component={MusicScreen} />
         <Tab.Screen name="Radio" component={RadioScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen
+          name="SettingsStack"
+          component={SettingsStack}
+          options={{header: () => null}}
+        />
       </Tab.Navigator>
       <PlayerTab />
     </>

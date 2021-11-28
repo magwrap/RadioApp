@@ -1,6 +1,8 @@
 import React from 'react';
-import {Alert, StyleSheet} from 'react-native';
+import {Alert} from 'react-native';
 import {useAuthContext} from '../../../hooks/AuthProvider';
+import {buttonStyles} from '../../../styles/settings/ButtonStyles';
+import {textStyles} from '../../../styles/settings/TextStyles';
 import CustomButton from '../CustomButton';
 
 interface DeleteProfileProps {}
@@ -32,19 +34,10 @@ const DeleteProfile: React.FC<DeleteProfileProps> = ({}) => {
     <CustomButton
       title="deleteProfile"
       onPress={onDeleteProfile}
-      style={styles.removeButton}
+      style={[buttonStyles.button, buttonStyles.deleteProfile]}
+      textStyle={textStyles.text}
     />
   );
 };
-const styles = StyleSheet.create({
-  removeButton: {
-    padding: 5,
-    margin: 10,
-    height: 50,
-    width: 100,
-    borderWidth: 1,
-    backgroundColor: 'red',
-  },
-});
 
 export default DeleteProfile;

@@ -1,22 +1,21 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {useAuthContext} from '../../../hooks/AuthProvider';
+import {buttonStyles} from '../../../styles/settings/ButtonStyles';
+import {textStyles} from '../../../styles/settings/TextStyles';
 import CustomButton from '../CustomButton';
 
 interface LogoutProps {}
 
 const Logout: React.FC<LogoutProps> = ({}) => {
   const {logout} = useAuthContext();
-  return <CustomButton title="Logout" onPress={logout} style={styles.button} />;
+  return (
+    <CustomButton
+      title="Logout"
+      onPress={logout}
+      style={[buttonStyles.button, buttonStyles.logout]}
+      textStyle={textStyles.text}
+    />
+  );
 };
-const styles = StyleSheet.create({
-  button: {
-    height: 50,
-    width: 100,
-    borderWidth: 1,
-    padding: 5,
-    margin: 10,
-  },
-});
 
 export default Logout;

@@ -21,10 +21,13 @@ const PlayerProvider: React.FC<PlayerProviderProps> = ({children}) => {
 
   // eslint-disable-next-line no-shadow
   const playNow = (station: Station) => {
-    if (player.isLoaded()) {
+    console.log('player status: ', player.status);
+    if (player.status !== 'loading') {
+      //TODO: player nie wlaczy sie za pierwszym odtworzeniem bo nie moze byc loaded skoro nie byl puszczony
+      console.log('PLAYING NOW');
       //TODO: to rozwiazanie kaze czekac uzytkownikowi az zaladuje sie wybrana stacja i wtedy bedzie mogl dopiero zmienic
       player.release();
-      player.playSoundNow(station);
+      player.playStationNow(station);
       setStation(station);
       if (!player.isPlaying()) {
         player.initialize();

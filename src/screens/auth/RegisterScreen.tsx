@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import CrudentialsTextInput from '../../components/auth/CrudentialsTextInput';
 import {useAuthContext} from '../../hooks/AuthProvider';
 import {useNavigation} from '@react-navigation/native';
+import CustomButton from '../../components/app/CustomButton';
+import {buttonStyles} from '../../styles/auth/ButtonStyles';
+import {textStyles} from '../../styles/auth/TextStyles';
 
 interface RegisterScreenProps {}
 
@@ -17,8 +20,12 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({}) => {
   const navigation = useNavigation();
 
   const signUp = () => {
-    if (email && password && confirmPassword && password === confirmPassword) {
-      register(email, password, setMessage);
+    if (email && password && confirmPassword) {
+      if (password === confirmPassword) {
+        register(email, password, setMessage);
+      } else {
+        setMessage("Passwords doesn't match!");
+      }
     } else {
       setViewWarnings(true);
     }
@@ -54,19 +61,28 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({}) => {
         viewWarnings={viewWarnings}
       />
 
-      {message ? <Text>{message}</Text> : null}
-
-      <Button title="Register" onPress={signUp} />
-      <Button title="Go to Login" onPress={goToLogin} />
+      {message ? <Text style={textStyles.message}>{message}</Text> : null}
+      <View style={buttonStyles.buttons}>
+        <CustomButton
+          title="Register"
+          onPress={signUp}
+          style={[buttonStyles.button, buttonStyles.registerButton]}
+          textStyle={textStyles.text}
+        />
+        <CustomButton
+          title="Sign In"
+          onPress={goToLogin}
+          style={[buttonStyles.button, buttonStyles.goToRegisterButton]}
+          textStyle={textStyles.text}
+        />
+        {/* <PhoneSignIn /> */}
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  text: {
-    fontSize: 20,
   },
 });
 
