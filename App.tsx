@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthProvider from './src/hooks/AuthProvider';
+import PlayerProvider from './src/hooks/PlayerProvider';
 import Routes from './src/navigation/Routes';
 
 interface AppProps {}
@@ -7,7 +8,9 @@ interface AppProps {}
 const App: React.FC<AppProps> = ({}) => {
   return (
     <AuthProvider>
-      <Routes />
+      <PlayerProvider>
+        <Routes />
+      </PlayerProvider>
     </AuthProvider>
   );
 };

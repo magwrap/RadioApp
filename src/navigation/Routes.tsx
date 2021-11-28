@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthStack from './auth/AuthStack';
 import {useAuthContext} from '../hooks/AuthProvider';
-import AppTabs from './app/AppTabs';
+import AppStack from './app/AppStack';
 
 interface routesProps {}
 
@@ -11,7 +11,7 @@ const Routes: React.FC<routesProps> = ({}) => {
 
   return (
     <NavigationContainer>
-      {currentUser ? <AppTabs /> : <AuthStack />}
+      {currentUser ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };

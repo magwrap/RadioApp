@@ -16,6 +16,8 @@ target 'RadioApp' do
 
   pod 'RNSoundPlayer', :path => '../node_modules/react-native-sound-player'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'RadioAppTests' do
     inherit! :complete
     # Pods for testing

@@ -9,13 +9,30 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import SoundPlayer from 'react-native-sound-player';
+
+import {usePlayerContext} from '../../hooks/PlayerProvider';
 
 interface RadioScreenProps {}
 
 const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
   const [stations, setStations] = useState<Station[]>();
-  const [stationFilter, setStationFilter] = useState('all');
+  const [stationFilter, setStationFilter] = useState('disco'); // TODO: zmienic na all
+
+  const {playNow} = usePlayerContext();
+  const musicIcon = require('../../images/Music-icon-lg.png');
+
+  const play = (station: Station) => {
+    try {
+      // SoundPlayer.playSoundFile('ns_wip', 'mp3');
+      console.log('RadioScreen: ', station.name, ': ', station.urlResolved);
+      playNow(station);
+    } catch (e) {
+      console.log('cannot play the sound file', e);
+    }
+  };
+  // const stop = () => {
+  //   //costam zeby stop
+  // };
 
   useEffect(() => {
     setupApi(stationFilter).then(data => {
@@ -23,14 +40,19 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
         setStations(data);
       }
     });
+    // const unsubscribe = NetInfo.addEventListener(state => {
+    //   console.log('Connection type', state.type);
+    //   console.log('Is connected?', state.isConnected);
+    // });
   }, [stationFilter]);
 
-  const setupApi = async (stationFil: string) => {
+  const setupApi = async (stationFiltr: string) => {
     const api = new RadioBrowserApi('My Radio App');
 
+    // eslint-disable-next-line no-shadow
     const stations = await api.searchStations({
       language: 'polish',
-      tag: stationFil,
+      tag: stationFiltr,
       limit: 30,
     });
 
@@ -50,19 +72,6 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
     'rock',
   ];
 
-  const play = (url: string) => {
-    try {
-      // play the file tone.mp3
-      // SoundPlayer.playSoundFile('ns_wip', 'mp3');
-      // or play from url
-      SoundPlayer.playUrl(url);
-    } catch (e) {
-      console.log(`cannot play the sound file`, e);
-    }
-  };
-  const stop = () => {
-    SoundPlayer.stop();
-  };
   return (
     <View>
       <Text style={styles.text}>Radio Screen</Text>
@@ -81,24 +90,32 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
       ))}
 
       <ScrollView>
-        {stations &&
+        {stations ? (
           stations.map((station, i) => (
+            //TODO: dodac jakis placeholder jesli stacja nie ma ikony np. station.favicon ? "costam ": "costam"
             <View key={i}>
               <View>
                 <Text>{station.name}</Text>
                 {station.favicon ? (
                   <Image
                     source={{uri: station.favicon}}
-                    style={{width: 50, height: 50}}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={styles.imageSize}
                   />
                 ) : (
-                  <Text>No Photo</Text>
+                  <Image
+                    source={musicIcon}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={styles.imageSize}
+                  />
                 )}
               </View>
-              <Button title="play" onPress={() => play(station.urlResolved)} />
-              <Button title="stop" onPress={() => stop()} />
+              <Button title="play" onPress={() => play(station)} />
             </View>
-          ))}
+          ))
+        ) : (
+          <Text>No Stations Found</Text>
+        )}
       </ScrollView>
     </View>
   );
@@ -117,6 +134,7 @@ const styles = StyleSheet.create({
     width: 100,
   },
   stations: {},
+  imageSize: {width: 50, height: 50},
 });
 
 export default RadioScreen;
