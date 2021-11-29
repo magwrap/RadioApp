@@ -28,13 +28,13 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({navigation}) => {
         <CustomButton
           title="Update Profile"
           onPress={onUpdateProfile}
-          style={buttonStyles.button}
+          style={[buttonStyles.button, buttonStyles.updateProfile]}
           textStyle={textStyles.text}
         />
         <CustomButton
           title="Change Password"
           onPress={onChangePassword}
-          style={buttonStyles.button}
+          style={[buttonStyles.button, buttonStyles.updatePassword]}
           textStyle={textStyles.text}
         />
 

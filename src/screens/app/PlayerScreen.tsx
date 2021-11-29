@@ -17,6 +17,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {usePlayerContext} from '../../hooks/PlayerProvider';
 import {LogBox} from 'react-native';
 import ViewActivityIndicator from '../../components/app/player/ViewActivityIndicator';
+import Center from '../../components/app/Center';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -31,6 +32,9 @@ const listSpeedValues = [
   {value: 1.5, text: 'x1.5'},
   {value: 1.75, text: 'x1.75'},
 ];
+
+const defaultColor = 'black';
+const defaultOppositeColor = 'aliceblue';
 
 interface PlayerScreenProps {
   route: any;
@@ -51,11 +55,20 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
           <FontAwesomeIcon
             name="step-backward"
             size={50}
-            color={player.isDisabledButtonPrevious === false ? 'white' : 'gray'}
+            color={
+              player.isDisabledButtonPrevious === false ? defaultColor : 'gray'
+            }
           />
         </TouchableOpacity>
         <View>
-          {station && <ViewActivityIndicator player={player} size="large" />}
+          {station && (
+            <View>
+              <ViewActivityIndicator player={player} size="large" />
+              <Center>
+                <Text>Connecting...</Text>
+              </Center>
+            </View>
+          )}
           {station?.favicon ? (
             <Image source={{uri: station.favicon}} style={styles.avatar} />
           ) : (
@@ -66,30 +79,32 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
           <FontAwesomeIcon
             name="step-forward"
             size={50}
-            color={player.isDisabledButtonNext === false ? 'white' : 'gray'}
+            color={
+              player.isDisabledButtonNext === false ? defaultColor : 'gray'
+            }
           />
         </TouchableOpacity>
       </View>
       <View style={styles.actionButtonsOther}>
         <TouchableOpacity onPress={player.decreaseTime} style={styles.button}>
-          <FontAwesomeIcon name="rotate-left" size={50} color="white" />
+          <FontAwesomeIcon name="rotate-left" size={50} color={defaultColor} />
           <Text style={styles.timeRate}>{player.timeRate}</Text>
         </TouchableOpacity>
         {player.status === 'play' ? (
           <TouchableOpacity
             onPress={player.pause}
             style={styles.marginHorizontal}>
-            <FontAwesomeIcon name="pause" color="white" size={50} />
+            <FontAwesomeIcon name="pause" color={defaultColor} size={50} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={player.play}
             style={styles.marginHorizontal}>
-            <FontAwesomeIcon name="play" color="white" size={50} />
+            <FontAwesomeIcon name="play" color={defaultColor} size={50} />
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={player.increaseTime} style={styles.button}>
-          <FontAwesomeIcon name="rotate-right" size={50} color="white" />
+          <FontAwesomeIcon name="rotate-right" size={50} color={defaultColor} />
           <Text style={styles.timeRate}>{player.timeRate}</Text>
         </TouchableOpacity>
       </View>
@@ -97,14 +112,14 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
         <TouchableOpacity onPress={player.shuffle} style={styles.button}>
           <EntypoIcon
             name="shuffle"
-            color={player.isShuffle === true ? '#3399ff' : 'white'}
+            color={player.isShuffle === true ? '#0aad39' : defaultColor}
             size={50}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={player.loop} style={styles.button}>
           <MaterialIcon
             name="loop"
-            color={player.isLoop === true ? '#3399ff' : 'white'}
+            color={player.isLoop === true ? '#3399ff' : defaultColor}
             size={50}
           />
         </TouchableOpacity>
@@ -114,13 +129,13 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
           disabled={player.isDisabledButtonStop}>
           <EntypoIcon
             name="controller-stop"
-            color={player.status === 'stop' ? 'red' : 'white'}
+            color={player.status === 'stop' ? 'red' : defaultColor}
             size={50}
           />
         </TouchableOpacity>
         {player.isMuted === false ? (
           <TouchableOpacity onPress={player.mute} style={styles.button}>
-            <EntypoIcon name="sound" color={'white'} size={50} />
+            <EntypoIcon name="sound" color={defaultColor} size={50} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={player.unmute} style={styles.button}>
@@ -133,9 +148,9 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
           minimumValue={0}
           maximumValue={100}
           value={player.volume}
-          minimumTrackTintColor="#FFFFFF"
+          minimumTrackTintColor={defaultColor}
           maximumTrackTintColor="gray"
-          thumbTintColor="#FFFFFF"
+          thumbTintColor={defaultColor}
           onSlidingComplete={volume => player.setVolume(volume)}
         />
       </View>
@@ -147,9 +162,9 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
           minimumValue={0}
           maximumValue={player.duration}
           value={player.currentTime}
-          minimumTrackTintColor="#FFFFFF"
+          minimumTrackTintColor={defaultColor}
           maximumTrackTintColor="gray"
-          thumbTintColor="#FFFFFF"
+          thumbTintColor={defaultColor}
           onTouchStart={player.pause}
           onTouchEnd={player.play}
           onSlidingComplete={seconds => player.seekToTime(seconds)}
@@ -165,7 +180,7 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
             <Text
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
-                color: player.speed === item.value ? '#3399ff' : 'white',
+                color: player.speed === item.value ? 'gray' : defaultColor,
               }}>
               {item.text}
             </Text>
@@ -180,10 +195,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'black',
+    backgroundColor: defaultOppositeColor,
   },
   name: {
-    color: 'white',
+    color: defaultColor,
+    fontSize: 20,
   },
   avatar: {
     width: 200,
@@ -198,7 +214,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   progressBarText: {
-    color: 'white',
+    color: defaultColor,
     alignSelf: 'center',
   },
   speed: {
@@ -241,7 +257,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     marginTop: 1,
-    color: 'white',
+    color: defaultColor,
     fontSize: 12,
   },
 

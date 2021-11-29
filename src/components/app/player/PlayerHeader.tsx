@@ -7,21 +7,24 @@ interface PlayerHeaderProps {}
 
 const PlayerHeader: React.FC<PlayerHeaderProps> = ({}) => {
   const navigation = useNavigation();
+
   const navigate = () => {
     navigation.goBack();
   };
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={navigate}>
-        <FontAwesome5Icon name="long-arrow-alt-left" color="white" size={50} />
+        <FontAwesome5Icon name="long-arrow-alt-left" color="black" size={50} />
       </TouchableOpacity>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
+    backgroundColor: 'aliceblue',
     padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
