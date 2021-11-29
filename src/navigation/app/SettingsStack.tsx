@@ -3,6 +3,7 @@ import React from 'react';
 import SettingsScreen from '../../screens/app/SettingsScreen';
 import UpdatePasswordScreen from '../../screens/app/UpdatePasswordScreen';
 import UpdateProfileScreen from '../../screens/app/UpdateProfileScreen';
+import ResetPasswordScreen from '../../screens/auth/ResetPasswordScreen';
 
 interface SettingsStackProps {}
 
@@ -19,12 +20,17 @@ const SettingsStack: React.FC<SettingsStackProps> = ({}) => {
       <Stack.Screen
         name="UpdateProfile"
         component={UpdateProfileScreen}
-        // options={{header: () => null}}
+        options={{header: () => null}}
       />
       <Stack.Screen
         name="UpdatePassword"
         component={UpdatePasswordScreen}
-        // options={{header: () => null}}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPasswordScreen}
+        options={{header: () => null}}
       />
     </Stack.Navigator>
   );

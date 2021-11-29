@@ -1,6 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 export const buttonStyles = StyleSheet.create({
+  buttons: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
   button: {
     minHeight: 40,
     minWidth: '26%',
@@ -23,10 +28,12 @@ export const buttonStyles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   logout: {
-    backgroundColor: 'orange',
+    backgroundColor: 'gray',
     height: 40,
     width: '25%',
     borderRadius: 13,
+    borderWidth: 0,
   },
   deleteProfile: {backgroundColor: 'red'},
+  back: {padding: 10},
 });
