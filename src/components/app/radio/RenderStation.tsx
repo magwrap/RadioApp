@@ -11,13 +11,13 @@ interface RenderStationProps {
 }
 
 const RenderStation: React.FC<RenderStationProps> = ({station}) => {
-  const {playNow} = usePlayerContext();
+  const {playStationNow} = usePlayerContext();
   const musicIcon = require('../../../images/Music-icon-lg.png');
 
   const play = (station: Station) => {
     try {
       console.log('RadioScreen: ', station.name, ': ', station.urlResolved);
-      playNow(station);
+      playStationNow(station);
     } catch (e) {
       console.log('cannot play the sound file', e);
     }

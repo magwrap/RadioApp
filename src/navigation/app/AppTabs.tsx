@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/app/HomeScreen';
 import RadioScreen from '../../screens/app/RadioScreen';
@@ -8,19 +8,31 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MusicScreen from '../../screens/app/MusicScreen';
 import PlayerTab from '../../components/app/player/PlayerTab';
 import SettingsStack from './SettingsStack';
+import Logout from '../../components/app/settings/Logout';
+import LanguagePicker from '../../components/app/radio/LanguagePicker';
 
 const Tab = createBottomTabNavigator();
 
 interface AppTabsProps {}
 
 const AppTabs: React.FC<AppTabsProps> = ({}) => {
+  const [selectedLanguage, setSelectedLanguage] = useState('polish');
   return (
     <>
       <Tab.Navigator
         screenOptions={({route}) => ({
+          headerStyle: {
+            backgroundColor: 'tomato',
+          },
+          headerTintColor: '#404040',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
           tabBarStyle: {
             height: 50,
             paddingHorizontal: 5,
+            paddingBottom: 5,
+            paddingTop: 5,
           },
           tabBarIcon: ({focused, color, size}) => {
             if (route.name === 'Home') {
@@ -30,17 +42,9 @@ const AppTabs: React.FC<AppTabsProps> = ({}) => {
                 <Entypo name="home" size={size} color={color} />
               );
             } else if (route.name === 'Music') {
-              return focused ? (
-                <Entypo name="folder-music" size={size} color={color} />
-              ) : (
-                <Entypo name="music" size={28} color={color} />
-              );
+              return <Entypo name="music" size={28} color={color} />;
             } else if (route.name === 'Radio') {
-              return focused ? (
-                <Feather name="radio" size={size} color={color} />
-              ) : (
-                <Entypo name="radio" size={size} color={color} />
-              );
+              return <Entypo name="radio" size={size} color={color} />;
             } else if (route.name === 'SettingsStack') {
               return focused ? (
                 <Feather name="settings" size={size} color={color} />
@@ -54,11 +58,23 @@ const AppTabs: React.FC<AppTabsProps> = ({}) => {
         })}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Music" component={MusicScreen} />
-        <Tab.Screen name="Radio" component={RadioScreen} />
+        <Tab.Screen
+          name="Radio"
+          component={RadioScreen}
+          initialParams={{selectedLanguage: selectedLanguage}}
+          options={{
+            headerRight: () => (
+              <LanguagePicker
+                selectedLanguage={selectedLanguage}
+                setSelectedLanguage={setSelectedLanguage}
+              />
+            ),
+          }}
+        />
         <Tab.Screen
           name="SettingsStack"
           component={SettingsStack}
-          options={{header: () => null}}
+          options={{title: 'Settings', headerRight: () => <Logout />}}
         />
       </Tab.Navigator>
       <PlayerTab />

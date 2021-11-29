@@ -13,8 +13,9 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
   selectedLanguage,
   setSelectedLanguage,
 }) => {
+  const pickerWidth = {minWidth: '50%', maxWidth: '65%'};
   return (
-    <View>
+    <View style={pickerWidth}>
       <Picker
         selectedValue={selectedLanguage}
         onValueChange={itemValue => setSelectedLanguage(itemValue)}>

@@ -1,16 +1,18 @@
 import {RadioBrowserApi, Station} from 'radio-browser-api';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
-import LanguagePicker from '../../components/app/radio/LanguagePicker';
 import RenderStation from '../../components/app/radio/RenderStation';
 import ViewStationFilters from '../../components/app/radio/ViewStationFilters';
 
-interface RadioScreenProps {}
+interface RadioScreenProps {
+  selectedLanguage?: string;
+}
 
-const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
+const RadioScreen: React.FC<RadioScreenProps> = ({
+  selectedLanguage = 'polish',
+}) => {
   const [stations, setStations] = useState<Station[]>();
   const [stationFilter, setStationFilter] = useState('all');
-  const [selectedLanguage, setSelectedLanguage] = useState('polish');
 
   useEffect(() => {
     setupApi(stationFilter).then(data => {
@@ -45,10 +47,10 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
         setStationFilter={setStationFilter}
       />
 
-      <LanguagePicker
+      {/* <LanguagePicker
         selectedLanguage={selectedLanguage}
         setSelectedLanguage={setSelectedLanguage}
-      />
+      /> */}
 
       {stations ? (
         <FlatList

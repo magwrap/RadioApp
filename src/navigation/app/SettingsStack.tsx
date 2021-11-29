@@ -11,7 +11,11 @@ const Stack = createNativeStackNavigator();
 const SettingsStack: React.FC<SettingsStackProps> = ({}) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{header: () => null}}
+      />
       <Stack.Screen
         name="UpdateProfile"
         component={UpdateProfileScreen}
