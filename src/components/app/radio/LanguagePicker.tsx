@@ -1,24 +1,20 @@
 import {Picker} from '@react-native-picker/picker';
 import React from 'react';
 import {View} from 'react-native';
+import {useRadioStateContext} from '../../../hooks/RadioStateProvider';
 
 const languages = ['polish', 'english'];
 
-interface LanguagePickerProps {
-  selectedLanguage: string;
-  setSelectedLanguage: React.Dispatch<React.SetStateAction<string>>;
-}
+interface LanguagePickerProps {}
 
-const LanguagePicker: React.FC<LanguagePickerProps> = ({
-  selectedLanguage,
-  setSelectedLanguage,
-}) => {
-  const pickerWidth = {minWidth: '50%', maxWidth: '65%'};
+const LanguagePicker: React.FC<LanguagePickerProps> = ({}) => {
+  const pickerWidth = {minWidth: '45%', maxWidth: '50%'};
+  const {selectedLanguage, changeLanguage} = useRadioStateContext();
   return (
     <View style={pickerWidth}>
       <Picker
         selectedValue={selectedLanguage}
-        onValueChange={itemValue => setSelectedLanguage(itemValue)}>
+        onValueChange={itemValue => changeLanguage(itemValue)}>
         {languages.map(language => (
           <Picker.Item
             key={language}

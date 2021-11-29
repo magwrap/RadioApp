@@ -1,5 +1,5 @@
 import {Station} from 'radio-browser-api';
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import useCreatePlayer from './useCreatePlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,22 +7,20 @@ interface PlayerProviderProps {}
 
 const PlayerContext = createContext<{
   player: any;
-  playStationNow: (station: Station) => void;
   station: Station | null;
+  playStationNow: (station: Station) => void;
+  getStation: () => void;
 }>({
   player: {},
-  playStationNow: () => {},
   station: null,
+  playStationNow: () => {},
+  getStation: () => {},
 });
 export const usePlayerContext = () => useContext(PlayerContext);
 
 const PlayerProvider: React.FC<PlayerProviderProps> = ({children}) => {
   const [station, setStation] = useState<Station | null>(null);
   let player = useCreatePlayer();
-
-  useEffect(() => {
-    getStation();
-  }, []);
 
   // eslint-disable-next-line no-shadow
   const playStationNow = (station: Station) => {
@@ -37,7 +35,6 @@ const PlayerProvider: React.FC<PlayerProviderProps> = ({children}) => {
       storeStation(station);
       if (!player.isPlaying()) {
         player.initialize();
-        player.play();
       }
     }
   };
@@ -63,7 +60,6 @@ const PlayerProvider: React.FC<PlayerProviderProps> = ({children}) => {
       );
       if (!player.isPlaying()) {
         player.initialize();
-        player.stop();
       }
     } catch (e) {
       console.error(e);
@@ -71,7 +67,8 @@ const PlayerProvider: React.FC<PlayerProviderProps> = ({children}) => {
   };
 
   return (
-    <PlayerContext.Provider value={{player, playStationNow, station}}>
+    <PlayerContext.Provider
+      value={{player, station, playStationNow, getStation}}>
       {children}
     </PlayerContext.Provider>
   );

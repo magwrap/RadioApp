@@ -39,13 +39,24 @@ const RenderStation: React.FC<RenderStationProps> = ({station}) => {
                 duration={10000}
                 loop
                 repeatSpacer={50}
-                marqueeDelay={1000}>
+                marqueeDelay={1000}
+                marqueeOnMount={true}
+                isInteraction={false}>
                 {station.name}
               </TextTicker>
             </View>
-
-            <Text style={stationStyles.stationInfo}>{station.country}</Text>
-            <Text style={stationStyles.stationInfo}>{station.state}</Text>
+            <View style={styles.row}>
+              <Text style={stationStyles.stationInfo}>{station.country}</Text>
+              <Text style={stationStyles.stationInfo}> - {station.state}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={stationStyles.stationInfo}>
+                bitrate: {station.bitrate}{' '}
+              </Text>
+              <Text style={stationStyles.stationInfo}>
+                votes: {station.votes}
+              </Text>
+            </View>
           </View>
         </View>
         <TouchableOpacity onPress={() => play(station)}>
@@ -60,6 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   imageSize: {width: 50, height: 50},
+  row: {flexDirection: 'row'},
 });
 
 export default RenderStation;

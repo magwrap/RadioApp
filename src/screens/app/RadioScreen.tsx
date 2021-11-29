@@ -3,16 +3,22 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
 import RenderStation from '../../components/app/radio/RenderStation';
 import ViewStationFilters from '../../components/app/radio/ViewStationFilters';
+import {usePlayerContext} from '../../hooks/PlayerProvider';
+import {useRadioStateContext} from '../../hooks/RadioStateProvider';
 
-interface RadioScreenProps {
-  selectedLanguage?: string;
-}
+interface RadioScreenProps {}
 
-const RadioScreen: React.FC<RadioScreenProps> = ({
-  selectedLanguage = 'polish',
-}) => {
+const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
   const [stations, setStations] = useState<Station[]>();
   const [stationFilter, setStationFilter] = useState('all');
+  const [loading, setLoading] = useState(false);
+
+  const {getStation} = usePlayerContext();
+  const {selectedLanguage, order} = useRadioStateContext();
+
+  useEffect(() => {
+    getStation();
+  }, []);
 
   useEffect(() => {
     setupApi(stationFilter).then(data => {
@@ -20,20 +26,22 @@ const RadioScreen: React.FC<RadioScreenProps> = ({
         setStations(data);
       }
     });
-  }, [stationFilter, selectedLanguage]);
+  }, [stationFilter, selectedLanguage, order]);
 
   const setupApi = async (stationFiltr: string) => {
     const api = new RadioBrowserApi('My Radio App');
 
+    setLoading(true);
+    console.log('order:', order);
     // eslint-disable-next-line no-shadow
     const stations = await api.searchStations({
       language: selectedLanguage,
       tag: stationFiltr,
       limit: 50,
-      order: 'clickCount', //clickTrend
+      order,
     });
-
-    return stations;
+    setLoading(false);
+    return stations.reverse();
   };
 
   const renderItem = ({item}: {item: Station}) => {
@@ -47,12 +55,7 @@ const RadioScreen: React.FC<RadioScreenProps> = ({
         setStationFilter={setStationFilter}
       />
 
-      {/* <LanguagePicker
-        selectedLanguage={selectedLanguage}
-        setSelectedLanguage={setSelectedLanguage}
-      /> */}
-
-      {stations ? (
+      {stations && !loading ? (
         <FlatList
           data={stations}
           renderItem={renderItem}

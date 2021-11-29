@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import RadioScreen from '../../screens/app/RadioScreen';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -7,14 +7,13 @@ import MusicScreen from '../../screens/app/MusicScreen';
 import PlayerTab from '../../components/app/player/PlayerTab';
 import SettingsStack from './SettingsStack';
 import Logout from '../../components/app/settings/Logout';
-import LanguagePicker from '../../components/app/radio/LanguagePicker';
+import RadioHeaderPickers from '../../components/app/headers/RadioHeaderPickers';
 
 const Tab = createBottomTabNavigator();
 
 interface AppTabsProps {}
 
 const AppTabs: React.FC<AppTabsProps> = ({}) => {
-  const [selectedLanguage, setSelectedLanguage] = useState('polish');
   return (
     <>
       <Tab.Navigator
@@ -47,14 +46,8 @@ const AppTabs: React.FC<AppTabsProps> = ({}) => {
         <Tab.Screen
           name="Radio"
           component={RadioScreen}
-          initialParams={{selectedLanguage: selectedLanguage}}
           options={{
-            headerRight: () => (
-              <LanguagePicker
-                selectedLanguage={selectedLanguage}
-                setSelectedLanguage={setSelectedLanguage}
-              />
-            ),
+            headerRight: () => <RadioHeaderPickers />,
           }}
         />
         <Tab.Screen name="Music" component={MusicScreen} />

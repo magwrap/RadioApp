@@ -118,9 +118,9 @@ export function useAudioHelper(
         }
         player.setSpeed(speed);
         setDuration(player.getDuration());
-        // if (!player.isPlaying()) {
-        //   play(player);
-        // }
+        if (!player.isPlaying()) {
+          play(player);
+        }
       };
 
       const currentAudio = queue[index];

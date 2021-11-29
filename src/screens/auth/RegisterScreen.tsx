@@ -2,14 +2,15 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CrudentialsTextInput from '../../components/auth/CrudentialsTextInput';
 import {useAuthContext} from '../../hooks/AuthProvider';
-import {useNavigation} from '@react-navigation/native';
 import CustomButton from '../../components/app/CustomButton';
 import {buttonStyles} from '../../styles/auth/ButtonStyles';
 import {textStyles} from '../../styles/auth/TextStyles';
 
-interface RegisterScreenProps {}
+interface RegisterScreenProps {
+  navigation: any;
+}
 
-const RegisterScreen: React.FC<RegisterScreenProps> = ({}) => {
+const RegisterScreen: React.FC<RegisterScreenProps> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,7 +18,6 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({}) => {
   const [message, setMessage] = useState('');
 
   const {register} = useAuthContext();
-  const navigation = useNavigation();
 
   const signUp = () => {
     if (email && password && confirmPassword) {

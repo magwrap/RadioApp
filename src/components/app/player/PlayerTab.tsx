@@ -17,7 +17,6 @@ const PlayerTab: React.FC<PlayerTabProps> = ({}) => {
   const name = station ? station.name : '';
 
   const navigation = useNavigation();
-
   const musicIcon = require('../../../images/Music-icon-sm.png');
 
   const goToPlayer = () => {
