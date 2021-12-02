@@ -43,13 +43,11 @@ const RadioStateProvider: React.FC<RadioStateProviderProps> = ({children}) => {
   const [order, setOrder] = useState<Order>('name');
 
   const changeLanguage = (language: string) => {
-    console.log('lang: ', language);
     setSelectedLanguage(language);
   };
 
   // eslint-disable-next-line no-shadow
   const changeOrder = (order: Order) => {
-    console.log('order: ', order);
     setOrder(order);
   };
   return (

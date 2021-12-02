@@ -1,3 +1,4 @@
+import Center from '../../components/app/Center';
 import {RadioBrowserApi, Station} from 'radio-browser-api';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
@@ -13,11 +14,11 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
   const [stationFilter, setStationFilter] = useState('all');
   const [loading, setLoading] = useState(false);
 
-  const {getStation} = usePlayerContext();
+  const {getStationOrSong} = usePlayerContext();
   const {selectedLanguage, order} = useRadioStateContext();
 
   useEffect(() => {
-    getStation();
+    getStationOrSong();
   }, []);
 
   useEffect(() => {
@@ -32,7 +33,6 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
     const api = new RadioBrowserApi('My Radio App');
 
     setLoading(true);
-    console.log('order:', order);
     // eslint-disable-next-line no-shadow
     const stations = await api.searchStations({
       language: selectedLanguage,
@@ -63,16 +63,15 @@ const RadioScreen: React.FC<RadioScreenProps> = ({}) => {
           ListFooterComponent={<View style={styles.footer} />}
         />
       ) : (
-        <View style={styles.activityIndicator}>
+        <Center>
           <ActivityIndicator size="large" />
-        </View>
+        </Center>
       )}
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {flex: 1},
-  activityIndicator: {alignItems: 'center', justifyContent: 'center'},
   footer: {height: 60},
 });
 

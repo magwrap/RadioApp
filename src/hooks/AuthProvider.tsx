@@ -118,9 +118,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const logout = () => {
     auth()
       .signOut()
-      .then(() => console.log('User signed out!'));
-
-    setCurrentUser(null);
+      .then(() => setCurrentUser(null));
   };
 
   const updateProfile = async (

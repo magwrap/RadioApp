@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../../components/app/CustomButton';
 import CrudentialsTextInput from '../../components/auth/CrudentialsTextInput';
@@ -18,12 +18,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [message, setMessage] = useState('');
 
   const {login} = useAuthContext();
-
-  useEffect(() => {
-    setEmail('jasiek.musiol@gmail.com');
-    setPassword('haslo123');
-    signIn();
-  }, []); //TODO: usunac ten efekt
 
   const goToRegister = () => {
     navigation.navigate('Register');

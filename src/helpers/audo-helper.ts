@@ -2,6 +2,7 @@ import SoundPlayer from 'react-native-sound';
 import React from 'react';
 
 import {Station} from 'radio-browser-api';
+import {Song} from '@/hooks/PlayerProvider';
 
 type AudioStatusType =
   | 'loading'
@@ -67,6 +68,19 @@ export function useAudioHelper(
   const [duration, setDuration] = React.useState(0);
   const [player, setPlayer] = React.useState<SoundPlayer>(null);
 
+  const playSongNow = (song: Song) => {
+    console.log('audio-helper station: ', song);
+    queue.unshift({
+      type: 'network',
+      path: song.songUrl,
+      name: song.title,
+    });
+    if (queue.length > 1) {
+      queue.pop();
+    }
+    console.log(queue);
+  };
+
   const playStationNow = (station: Station) => {
     console.log('audio-helper station: ', station);
     queue.unshift({
@@ -115,6 +129,9 @@ export function useAudioHelper(
         } else {
           setStatus('success');
           setErrorMessage('');
+          //to dodalismy
+          console.log('callback called');
+          setPlayer(player);
         }
         player.setSpeed(speed);
         setDuration(player.getDuration());
@@ -139,6 +156,8 @@ export function useAudioHelper(
           );
           break;
         case 'network':
+          console.log('creating a player...');
+          //moze zamiast tutaj tworzyc nowy player za  kazdym jak funkcja jest wykonana - utworzyc go u gory
           newPlayer = new SoundPlayer(currentAudio.path, null, error =>
             callback(error, newPlayer),
           );
@@ -151,7 +170,8 @@ export function useAudioHelper(
       }
       if (newPlayer) {
         //TODO: jak cos by niedzialalo z odtwarznaiem to moze przez to
-        setPlayer(newPlayer);
+        // console.log('new player created');
+        // setPlayer(newPlayer);
       }
     }
   }
@@ -445,6 +465,7 @@ export function useAudioHelper(
     isLoop,
     isMuted,
     volume,
+    playSongNow,
     playStationNow,
     isPlaying,
     isLoaded,

@@ -29,7 +29,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({}) => {
         {currentUser?.photoURL ? (
           <Image
             // eslint-disable-next-line react-native/no-inline-styles
-            style={{width: 50, height: 50}}
+            style={{width: 100, height: 100}}
             source={{uri: currentUser?.photoURL}}
           />
         ) : null}

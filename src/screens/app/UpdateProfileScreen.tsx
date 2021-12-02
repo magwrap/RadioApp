@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {TextInput, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomButton from '../../components/app/CustomButton';
-// import ImagePicker from '../../components/app/settings/ImagePicker';
+import ImagePicker from '../../components/app/settings/ImagePicker';
 import CrudentialsTextInput from '../../components/auth/CrudentialsTextInput';
 import {useAuthContext} from '../../hooks/AuthProvider';
 import {buttonStyles} from '../../styles/settings/ButtonStyles';
@@ -16,7 +16,6 @@ const UpdateProfileScreen: React.FC<UpdateProfileScreenProps> = ({
 }) => {
   const [displayName, setDisplayName] = useState('');
   const [photoURL, setPhotoURL] = useState('');
-  //TODO: dodac funkcje ktora zbiera zdjecie
   const {updateProfile} = useAuthContext();
 
   const onUpdateProfile = () => {
@@ -40,12 +39,7 @@ const UpdateProfileScreen: React.FC<UpdateProfileScreenProps> = ({
         label="display name"
       />
 
-      <TextInput
-        value={photoURL}
-        onChangeText={setPhotoURL}
-        placeholder="photo URjanL"
-      />
-      {/* <ImagePicker /> */}
+      <ImagePicker setPhotoURL={setPhotoURL} />
       <CustomButton
         title="Update Profile"
         onPress={onUpdateProfile}

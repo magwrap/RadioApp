@@ -1,8 +1,8 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import PlayerHeader from '../../components/app/player/PlayerHeader';
-import PlayerScreen2 from '../../screens/app/PlayerScreen';
 import AppTabs from './AppTabs';
+import PlayerScreen2 from '../../screens/app/PlayerScreen';
 
 interface AppStackProps {}
 

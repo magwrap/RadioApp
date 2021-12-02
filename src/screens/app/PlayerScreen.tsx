@@ -17,7 +17,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {usePlayerContext} from '../../hooks/PlayerProvider';
 import {LogBox} from 'react-native';
 import ViewActivityIndicator from '../../components/app/player/ViewActivityIndicator';
-import Center from '../../components/app/Center';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -63,10 +62,11 @@ const PlayerScreen: React.FC<PlayerScreenProps> = () => {
         <View>
           {station && (
             <View>
-              <ViewActivityIndicator player={player} size="large" />
-              <Center>
-                <Text>Connecting...</Text>
-              </Center>
+              <ViewActivityIndicator
+                player={player}
+                size="large"
+                viewText={true}
+              />
             </View>
           )}
           {station?.favicon ? (

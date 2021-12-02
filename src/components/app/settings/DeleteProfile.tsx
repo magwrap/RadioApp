@@ -21,7 +21,6 @@ const DeleteProfile: React.FC<DeleteProfileProps> = ({}) => {
         },
         {
           text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
       ],

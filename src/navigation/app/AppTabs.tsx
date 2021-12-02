@@ -8,6 +8,7 @@ import PlayerTab from '../../components/app/player/PlayerTab';
 import SettingsStack from './SettingsStack';
 import Logout from '../../components/app/settings/Logout';
 import RadioHeaderPickers from '../../components/app/headers/RadioHeaderPickers';
+import AddSongButton from '../../components/app/music/AddSongButton';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +51,11 @@ const AppTabs: React.FC<AppTabsProps> = ({}) => {
             headerRight: () => <RadioHeaderPickers />,
           }}
         />
-        <Tab.Screen name="Music" component={MusicScreen} />
+        <Tab.Screen
+          name="Music"
+          component={MusicScreen}
+          options={{headerRight: () => <AddSongButton />}}
+        />
 
         <Tab.Screen
           name="SettingsStack"

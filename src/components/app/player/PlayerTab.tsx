@@ -55,7 +55,7 @@ const PlayerTab: React.FC<PlayerTabProps> = ({}) => {
           value={player.currentTime}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="gray"
-          thumbTintColor="#FFFFFF"
+          thumbTintColor="gray"
           onTouchStart={player.pause}
           onTouchEnd={player.play}
           onSlidingComplete={seconds => player.seekToTime(seconds)}
@@ -78,7 +78,7 @@ const PlayerTab: React.FC<PlayerTabProps> = ({}) => {
           <FontAwesomeIcon
             name="step-forward"
             size={buttonSize}
-            color={player.isDisabledButtonNext === false ? 'white' : 'gray'}
+            color={player.isDisabledButtonNext === false ? 'grey' : 'darkgray'}
           />
         </TouchableOpacity>
       </View>
