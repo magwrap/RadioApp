@@ -19,3 +19,8 @@ const App: React.FC<AppProps> = ({}) => {
 };
 
 export default App;
+
+//TODO: dodac w przyszlosci(jesli ci sie bedzie chcialo)
+//viewRadioStationScreen - naciskasz na logo radia i ci wyswietla jego dane
+//dodawanie piosenek/stacji do kolejki - na koncu kolejki na poczatku kolejki
+//wlaczanie innej stacji/piosenki podczas gdy jedna sie laduje --> bez efektu dwóch stacji lecacych na raz
