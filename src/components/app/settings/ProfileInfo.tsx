@@ -44,11 +44,13 @@ const styles = StyleSheet.create({
   },
   email: {
     fontSize: 15,
+    color: 'black',
     fontStyle: 'italic',
   },
   displayName: {
     fontSize: 25,
     fontWeight: 'bold',
+    color: 'black',
   },
   created: {
     color: 'gray',

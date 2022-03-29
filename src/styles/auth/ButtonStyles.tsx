@@ -22,5 +22,7 @@ export const buttonStyles = StyleSheet.create({
   registerButton: {
     backgroundColor: 'blue',
   },
-  goToRegisterButton: {},
+  goToRegisterButton: {
+    backgroundColor: 'yellow',
+  },
 });

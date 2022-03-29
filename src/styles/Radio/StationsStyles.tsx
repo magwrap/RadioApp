@@ -28,6 +28,7 @@ export const stationStyles = StyleSheet.create({
 
   station: {
     maxWidth: '100%',
+    backgroundColor: 'gray',
   },
   stationLeft: {
     flexDirection: 'row',

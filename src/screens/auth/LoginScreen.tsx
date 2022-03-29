@@ -83,6 +83,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'lightgray',
   },
 });
 

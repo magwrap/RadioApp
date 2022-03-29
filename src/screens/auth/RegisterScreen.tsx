@@ -83,6 +83,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'lightgray',
   },
 });
 

@@ -9,6 +9,7 @@ import SettingsStack from './SettingsStack';
 import Logout from '../../components/app/settings/Logout';
 import RadioHeaderPickers from '../../components/app/headers/RadioHeaderPickers';
 import AddSongButton from '../../components/app/music/AddSongButton';
+import {View} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
